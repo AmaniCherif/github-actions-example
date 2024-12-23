@@ -1,5 +1,4 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
 
 name: project cicd flow
 
@@ -10,9 +9,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: write
-  dependency-graph: write
-  id-token: write
+  contents: write # Required for accessing repository contents
 
 jobs:
   build:
@@ -34,4 +31,6 @@ jobs:
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: advanced-security/maven-dependency-submission-action@v1
