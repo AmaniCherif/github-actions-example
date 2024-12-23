@@ -1,5 +1,5 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information, see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
 
 name: project cicd flow
 
@@ -10,19 +10,18 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read  # Grants read-only access to the repository content
-  id-token: write # Required for certain GitHub Actions that authenticate via OIDC
+  contents: write
+  dependency-graph: write
+  id-token: write
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository code
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Step 2: Set up JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -30,10 +29,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # Step 3: Build project using Maven
       - name: Build with Maven
         run: mvn clean install
 
-      # Step 4 (Optional): Update dependency graph to improve Dependabot alerts
+      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@v1
