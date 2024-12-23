@@ -10,8 +10,8 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read        # Allows the workflow to read repository content
-  dependency-graph: write  # Allows updating the dependency graph
+  contents: read  # Grants read-only access to the repository content
+  id-token: write # Required for certain GitHub Actions that authenticate via OIDC
 
 jobs:
   build:
